@@ -137,14 +137,15 @@ public class PuzzleActivity extends AppCompatActivity {
                             lParams.height = percentageHeight;
                             lParams.width = percentageWidth;
                             lParams.leftMargin = margin4;
-                            lParams.topMargin = imageView.getHeight() + timer.getHeight() + 250;
+                            lParams.topMargin = imageView.getBottom() + 60;
                             piece.setLayoutParams(lParams);
 
-                            margin4 += 440;
+                            //margin4 += 440;
+                            margin4 += (int)(lParams.width*1.5);
                         }
 
                         // 4 pieces - row 2
-                        margin4 = 240;
+                        margin4 = 220;
                         for (int i = 2; i < 4; i++) {
                             PuzzlePiece piece = pieces.get(i);
                             piece.setOnTouchListener(touchListener);
@@ -157,10 +158,10 @@ public class PuzzleActivity extends AppCompatActivity {
                             lParams.height = percentageHeight;
                             lParams.width = percentageWidth;
                             lParams.leftMargin = margin4;
-                            lParams.topMargin = layout.getHeight() - lParams.height - 70;
+                            lParams.topMargin = imageView.getBottom() + (int)(lParams.height*1.5);
                             piece.setLayoutParams(lParams);
 
-                            margin4 += 420;
+                            margin4 += (int)(lParams.width*1.5);
                         }
                         break;
 
@@ -245,7 +246,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             lParams.height = percentageHeight;
                             lParams.width = percentageWidth;
                             lParams.leftMargin = margin12;
-                            lParams.topMargin = 1100;
+                            lParams.topMargin = imageView.getBottom() + 60;
                             piece.setLayoutParams(lParams);
 
                             margin12 += 220;
@@ -265,7 +266,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             lParams.height = percentageHeight;
                             lParams.width = percentageWidth;
                             lParams.leftMargin = margin12;
-                            lParams.topMargin = 1250;
+                            lParams.topMargin = layout.getHeight() - lParams.height*4;
                             piece.setLayoutParams(lParams);
 
                             margin12 += 220;
@@ -285,7 +286,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             lParams.height = percentageHeight;
                             lParams.width = percentageWidth;
                             lParams.leftMargin = margin12;
-                            lParams.topMargin = 1400;
+                            lParams.topMargin = layout.getHeight() - lParams.height - 40;
                             piece.setLayoutParams(lParams);
 
                             margin12 += 220;
@@ -383,9 +384,9 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     private ArrayList<PuzzlePiece> splitImage() {
-        int piecesNumber = 4;
-        int rows = 2;
-        int cols = 2;
+        int piecesNumber = 12;
+        int rows = 3;
+        int cols = 4;
 
         ImageView imageView = findViewById(R.id.imageView);
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);
