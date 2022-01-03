@@ -40,13 +40,13 @@ public class CreateUsernameActivity extends AppCompatActivity {
 
         userList = new UserList(this);
         //value for variable that is find by id that is created in layout
-        user = (EditText) findViewById(R.id.newUsername);
-        repeatUsername = (EditText) findViewById(R.id.repeatUsername);
-        saveNewUsername = (Button) findViewById(R.id.saveNewUsername);
-        deleteUsername = (Button) findViewById(R.id.deleteUsername);
+        user = (EditText) findViewById(R.id.enter_username);
+        repeatUsername = (EditText) findViewById(R.id.repeat_username);
+        saveNewUsername = (Button) findViewById(R.id.save_username);
+        deleteUsername = (Button) findViewById(R.id.delete_username);
 
         //creates usernamesList in current layout
-        usernamesListView = (ListView) findViewById(R.id.SHOW_ALL_Usernames);
+        usernamesListView = (ListView) findViewById(R.id.view_usernames_listview);
         usernames = new ArrayList<User>(0);
         populateUsernamesList();
         db = new DatabaseHelper(this);
@@ -98,9 +98,8 @@ usernamesListView.setOnItemClickListener(listViewListener);
             @Override
             public void onClick(View v) {
 
-                int usernameId = usernames.get(usernamesListView.getId()).getUsernameId();
-                User userClicked = userList.getUser(usernameId);
-                userList.deleteUser(userClicked);
+
+
                     Toast.makeText(CreateUsernameActivity.this,"User has been deleted", Toast.LENGTH_LONG).show();
 
 
@@ -124,11 +123,14 @@ usernamesListView.setOnItemClickListener(listViewListener);
     }
 
     private AdapterView.OnItemClickListener listViewListener = new AdapterView.OnItemClickListener() {
+        private String getSelectedItemOfList;
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            usernamesListView.getSelectedItem();
+           usernamesListView.getItemAtPosition(position);
             usernamesListView.setSelection(position);
-            view.setSelected(true);
-            int usernameId = usernames.get(position).getUsernameId();
+           view.setSelected(true);
+             int usernameId = usernames.get(position).getUsernameId();
            // goToComplexityActivity(usernameId);
         }
     };
