@@ -3,8 +3,7 @@ package lv.marmog.androidpuzzlegame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQuery;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,18 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import lv.marmog.androidpuzzlegame.database.DatabaseHelper;
 import lv.marmog.androidpuzzlegame.database.User;
-import lv.marmog.androidpuzzlegame.database.UserDAO;
 import lv.marmog.androidpuzzlegame.database.UserList;
 
 public class CreateUsernameActivity extends AppCompatActivity {
 
 //references to buttons and other controls on the layout
+    private int usernameId;
     private EditText user;
     private EditText repeatUsername;
     private Button saveNewUsername, deleteUsername;
@@ -37,6 +34,7 @@ public class CreateUsernameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_username);
+
 
         userList = new UserList(this);
         //value for variable that is find by id that is created in layout
@@ -60,6 +58,7 @@ public class CreateUsernameActivity extends AppCompatActivity {
                 String reUser = repeatUsername.getText().toString();
                 User u = new User();
                 u.setUsername(username);
+
            //check if field are filled and show message if not
                 if(username.equals("") || reUser.equals("")) {
                     Toast.makeText(CreateUsernameActivity.this, "Please enter all the field", Toast.LENGTH_SHORT).show();
@@ -92,18 +91,16 @@ public class CreateUsernameActivity extends AppCompatActivity {
                 }
             }
         });
-usernamesListView.setOnItemClickListener(listViewListener);
+usernamesListView.setOnItemLongClickListener(listViewListener);
 
         deleteUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                userList.deleteUser(usernames.remove(usernameId));
 
                     Toast.makeText(CreateUsernameActivity.this,"User has been deleted", Toast.LENGTH_LONG).show();
-
-
-
+                    populateUsernamesList();
             }
         });
     }
@@ -122,21 +119,22 @@ usernamesListView.setOnItemClickListener(listViewListener);
         usernamesListView.setAdapter(arrayAdapter);
     }
 
-    private AdapterView.OnItemClickListener listViewListener = new AdapterView.OnItemClickListener() {
-        private String getSelectedItemOfList;
+    private AdapterView.OnItemLongClickListener listViewListener = new AdapterView.OnItemLongClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             usernamesListView.getSelectedItem();
-           usernamesListView.getItemAtPosition(position);
+            usernamesListView.getItemAtPosition(position);
             usernamesListView.setSelection(position);
-           view.setSelected(true);
-             int usernameId = usernames.get(position).getUsernameId();
-           // goToComplexityActivity(usernameId);
+            usernameId = usernames.get(position).getUsernameId();
+            view.setSelected(true);
+            return false;
         }
+
     };
     protected void goToComplexityActivity(int id){
         Intent complexityActivity = new Intent(this, ComplexityActivity.class);
         startActivity(complexityActivity);
     }
-
+    
 }
+
