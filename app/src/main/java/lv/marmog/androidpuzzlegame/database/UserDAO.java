@@ -29,7 +29,6 @@ public class UserDAO {
 
     //Constructor
 
-
     public UserDAO() {
     }
 
