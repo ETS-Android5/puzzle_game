@@ -33,6 +33,7 @@ public class ScoreActivity extends AppCompatActivity {
     Button exit;
     private SQLiteDatabase database;
     private DatabaseHelper dbHelper;
+    long insertResult;
     int userIdInteger, levelInteger;
     String receivedValue;
     private String [] allColumns = {
@@ -67,39 +68,33 @@ public class ScoreActivity extends AppCompatActivity {
     public boolean insertResult(){
         ContentValues contentValues = new ContentValues();
 
-
-        contentValues.put(DatabaseHelper.COLUMN_USER_ID, userIdInteger);
-        long insertResult = database.insert(TABLE_TIMER, null, contentValues);
-
-        Cursor cursor = database.query(TABLE_TIMER, allColumns,
-                DatabaseHelper.COLUMN_USER_ID + " = " + insertResult, null, null, null, null);
-
-        cursor.moveToLast();
-        cursor.close();
         switch (levelInteger){
         case 4:
             contentValues.put(DatabaseHelper.COLUMN_TIMER_RESULT_FOR_4, receivedValue);
-            long insertResult1 = database.insert(TABLE_TIMER, null, contentValues);
+            contentValues.put(DatabaseHelper.COLUMN_USER_ID, userIdInteger);
+            insertResult = database.insert(TABLE_TIMER, null, contentValues);
             Cursor cursor1 = database.query(TABLE_TIMER, allColumns,
-                    DatabaseHelper.COLUMN_TIMER_RESULT_FOR_4 + " = " + insertResult1, null, null, null, null);
+                    DatabaseHelper.COLUMN_TIMER_RESULT_FOR_4 + " = " + insertResult, null, null, null, null);
             cursor1.moveToLast();
             cursor1.close();
         break;
 
             case 9:
             contentValues.put(DatabaseHelper.COLUMN_TIMER_RESULT_FOR_9, receivedValue);
-                long insertResult2 = database.insert(TABLE_TIMER, null, contentValues);
+                contentValues.put(DatabaseHelper.COLUMN_USER_ID, userIdInteger);
+                insertResult = database.insert(TABLE_TIMER, null, contentValues);
                 Cursor cursor2 = database.query(TABLE_TIMER, allColumns,
-                        DatabaseHelper.COLUMN_TIMER_RESULT_FOR_9 + " = " + insertResult2, null, null, null, null);
+                        DatabaseHelper.COLUMN_TIMER_RESULT_FOR_9 + " = " + insertResult, null, null, null, null);
                 cursor2.moveToLast();
                 cursor2.close();
         break;
 
             case 12:
             contentValues.put(DatabaseHelper.COLUMN_TIMER_RESULT_FOR_12, receivedValue);
-                long insertResult3 = database.insert(TABLE_TIMER, null, contentValues);
+                contentValues.put(DatabaseHelper.COLUMN_USER_ID, userIdInteger);
+                insertResult = database.insert(TABLE_TIMER, null, contentValues);
                 Cursor cursor3 = database.query(TABLE_TIMER, allColumns,
-                        DatabaseHelper.COLUMN_TIMER_RESULT_FOR_12 + " = " + insertResult3, null, null, null, null);
+                        DatabaseHelper.COLUMN_TIMER_RESULT_FOR_12 + " = " + insertResult, null, null, null, null);
                 cursor3.moveToLast();
                 cursor3.close();
         break;
