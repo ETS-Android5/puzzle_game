@@ -188,8 +188,6 @@ public class GridViewActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
         }
     }
-
-
 }
 
 

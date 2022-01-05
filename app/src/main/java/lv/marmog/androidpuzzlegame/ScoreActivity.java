@@ -10,14 +10,10 @@ import android.widget.TextView;
 
 public class ScoreActivity extends AppCompatActivity {
 
-    TextView congratulationText;
-    TextView yourTimeText;
+
     TextView yourTime;
-    TextView BestTimeText;
     TextView BestTime;
     Button next;
-    Button exit;
-
 
 
 
@@ -37,10 +33,5 @@ public class ScoreActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToMenu(View view){
-        // redirect from this activity to the first activity, for now it redirects to MianActivy!!!!!!!!!!!!!!!!
-        Intent intent = new Intent(this, ComplexityActivity.class);
-        startActivity(intent);
-    }
 
 }
