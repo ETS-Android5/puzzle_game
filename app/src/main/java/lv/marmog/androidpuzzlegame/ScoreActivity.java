@@ -24,6 +24,9 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import lv.marmog.androidpuzzlegame.database.DatabaseHelper;
+import lv.marmog.androidpuzzlegame.database.Score;
+import lv.marmog.androidpuzzlegame.database.Timer;
+import lv.marmog.androidpuzzlegame.database.TimerDAO;
 import lv.marmog.androidpuzzlegame.database.User;
 
 
@@ -77,7 +80,8 @@ public class ScoreActivity extends AppCompatActivity {
 
         //show best time
         bestTime = (TextView) findViewById(R.id.best_time);
-        bestTime.setText(showBestResult());
+//        bestTime.setText(showBestScore());
+
 
         // id, level, timer for db
         userId = getUserId();
@@ -148,48 +152,85 @@ public class ScoreActivity extends AppCompatActivity {
     // --- /insert timer result in db
 
     //Show only best
-    public String showBestResult() {
-
-        Cursor cursor1;
-
-
-        //switch for showing better result for current level( puzzle pieces quantity)
-        switch (getLevel()) {
-            case 4:
-                cursor1 = database.rawQuery("SELECT " + COLUMN_TIMER_RESULT_FOR_4 + " from " + TABLE_TIMER + " WHERE " + COLUMN_USER_ID + " = " + getUserId() +
-                        " ORDER BY " + COLUMN_TIMER_RESULT_FOR_4 + " ASC LIMIT 1", null);
-
-                //   showBestResult2 = "SELECT " + COLUMN_TIMER_RESULT_FOR_4 +  " FROM "+ TABLE_TIMER +" WHERE " + COLUMN_USER_ID + getUserId() + " ORDER BY " + COLUMN_TIMER_RESULT_FOR_4 + " limit 1 " ;
-
-                // "SELECT ( MIN " + COLUMN_TIMER_RESULT_FOR_4 + ") FROM " + TABLE_TIMER + " WHERE " + COLUMN_USER_ID  + getUserId();
-                break;
-
-            case 9:
-
-                cursor1 = database.rawQuery("SELECT " + COLUMN_TIMER_RESULT_FOR_9 + " from " + TABLE_TIMER +
-                        " ORDER BY " + COLUMN_TIMER_RESULT_FOR_9 + " ASC LIMIT 1", null);
-                break;
-            case 12:
-
-                cursor1 = database.rawQuery("SELECT " + COLUMN_TIMER_RESULT_FOR_12 + " from " + TABLE_TIMER +
-                        " ORDER BY " + COLUMN_TIMER_RESULT_FOR_12 + " ASC LIMIT 1", null);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + getLevel());
-        }
-
-//        while (!cursor1.isAfterLast()) {
+//    public String showBestResult() {
 //
-//            User user = cursorToUser(cursor);
-//            userList.add(user);
-//            cursor.moveToNext();
+//        Cursor cursor1;
+//        String bestResult;
+//
+//
+//        //switch for showing better result for current level( puzzle pieces quantity)
+//        switch (getLevel()) {
+//            case 4:
+//                cursor1 = database.rawQuery("SELECT " + COLUMN_TIMER_RESULT_FOR_4 + " FROM " +
+//                        TABLE_TIMER + " WHERE " + COLUMN_USER_ID + " = " + getUserId() +
+//                        " ORDER BY " + COLUMN_TIMER_RESULT_FOR_4 + " ASC LIMIT 1", null);
+//
+////                bestResult = String.valueOf(cursorToResultFor4(cursor1));
+////                Log.i(ScoreActivity.class.getName(), "Best result from database is " + bestResult);
+//
+//
+//                //   showBestResult2 = "SELECT " + COLUMN_TIMER_RESULT_FOR_4 +  " FROM "+ TABLE_TIMER +" WHERE " + COLUMN_USER_ID + getUserId() + " ORDER BY " + COLUMN_TIMER_RESULT_FOR_4 + " limit 1 " ;
+//
+//                // "SELECT ( MIN " + COLUMN_TIMER_RESULT_FOR_4 + ") FROM " + TABLE_TIMER + " WHERE " + COLUMN_USER_ID  + getUserId();
+//                break;
+//
+//            case 9:
+//                cursor1 = database.rawQuery("SELECT " + COLUMN_TIMER_RESULT_FOR_9 + " from " +
+//                        TABLE_TIMER + " WHERE " + COLUMN_USER_ID + " = " + getUserId() +
+//                        " ORDER BY " + COLUMN_TIMER_RESULT_FOR_9 + " ASC LIMIT 1", null);
+////                bestResult = String.valueOf(cursorToResultFor4(cursor1));
+////                Log.i(ScoreActivity.class.getName(), "Best result from database is " + bestResult);
+//                break;
+//            case 12:
+//                cursor1 = database.rawQuery("SELECT " + COLUMN_TIMER_RESULT_FOR_12 + " from " +
+//                        TABLE_TIMER + " WHERE " + COLUMN_USER_ID + " = " + getUserId() +
+//                        " ORDER BY " + COLUMN_TIMER_RESULT_FOR_12 + " ASC LIMIT 1", null);
+////                bestResult = String.valueOf(cursorToResultFor4(cursor1));
+////                Log.i(ScoreActivity.class.getName(), "Best result from database is " + bestResult);
+//                break;
+//            default:
+//                throw new IllegalStateException("Unexpected value: " + getLevel());
 //        }
+//
+////        while (!cursor1.isAfterLast()) {
+////
+////            User user = cursorToUser(cursor);
+////            userList.add(user);
+////            cursor.moveToNext();
+////        }
+//
+//
+//        return cursor1.toString();
+//    }
 
-        String bestResult = cursor1.toString();
-        Log.i(ScoreActivity.class.getName(), "Best result from database is " + bestResult);
-        return bestResult;
-    }
 
+//    // get score with timer dao
+//    public int showBestScore() {
+//        userId = getUserId();
+//        level = getLevel();
+//        int bestScore;
+////        DatabaseHelper db = new DatabaseHelper(this);
+////        db.getReadableDatabase();
+//        TimerDAO timerDAO = new TimerDAO();
+//        Timer bestScoreTimerObject = timerDAO.getScore(userId, level, this);
+//
+//        switch (level) {
+//            case 4:
+//                bestScore = bestScoreTimerObject.getBestScore_4();
+//                break;
+////            case 9:
+////                bestScore = bestScoreTimerObject.getBestScore_9();
+////                break;
+////            case 12:
+////                bestScore = bestScoreTimerObject.getBestScore_12();
+////                break;
+//            default:    // if no best score for this level is present
+//                bestScore = 0;
+//                break;
+//        }
+//
+//        return bestScore;
+//    }
 
     public void startNewGame(View view) {
         Intent intent = new Intent(this, ComplexityActivity.class);// redirect from this page to MainActivity page- list of images
@@ -246,4 +287,11 @@ public class ScoreActivity extends AppCompatActivity {
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
+
+
+    // cursor for timer results
+//    private int cursorToResultFor4(Cursor cursor) {
+//        int resultFor4 = cursor.getInt(1);
+//        return resultFor4;
+//    }
 }
